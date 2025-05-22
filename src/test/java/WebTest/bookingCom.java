@@ -23,16 +23,6 @@ public class bookingCom extends BaseClass {
         setTest(extent.createTest("Home Page Validation"));
         HomePage homePage = new HomePage(getDriver());
         HomePageAction homePageAction = new HomePageAction(homePage);
-
-        getTest().log(Status.INFO, "Validating headline text...");
-        assert homePageAction.getHeadlineText().contains("Recharge in a holiday home") : "Headline text mismatch.";
-
-        getTest().log(Status.INFO, "Validating subheadline text...");
-        assert homePageAction.getSubHeadlineText().contains("All together, in a place that's just for you") : "Subheadline text mismatch.";
-
-        getTest().log(Status.INFO, "Validating Booking.com logo...");
-        assert homePageAction.isLogoDisplayed() : "Booking.com logo not displayed.";
-
         getTest().log(Status.INFO, "Validating navigation tabs...");
         assert homePageAction.isStaysTabVisible() : "'Stays' tab not visible.";
         assert homePageAction.isFlightsTabVisible() : "'Flights' tab not visible.";

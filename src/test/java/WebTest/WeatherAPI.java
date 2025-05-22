@@ -1,4 +1,6 @@
 package WebTest;
+import org.testng.annotations.Test;
+import org.testng.annotations.AfterTest;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -17,7 +19,19 @@ import java.util.List;
 import java.util.Properties;
 
 public class WeatherAPI {
-    public static void main(String[] args) {
+
+    private static ExtentReports extent;
+    private static ExtentSparkReporter spark;
+
+    @org.testng.annotations.BeforeTest
+    public void setupReport() {
+        spark = new ExtentSparkReporter("test-output/WeatherReport.html");
+        extent = new ExtentReports();
+        extent.attachReporter(spark);
+    }
+
+    @Test
+    public void testWeatherAPI() {
         runWeatherTests();
     }
 
@@ -49,15 +63,9 @@ public class WeatherAPI {
             return;
         }
 
-        ExtentSparkReporter spark = new ExtentSparkReporter("test-output/WeatherReport.html");
-        ExtentReports extent = new ExtentReports();
-        extent.attachReporter(spark);
-
         for (String city : postcodes) {
             runTestForCity(extent, apiKey, city);
         }
-
-        extent.flush();
     }
 
     private static void runTestForCity(ExtentReports extent, String apiKey, String city) {
@@ -84,5 +92,13 @@ public class WeatherAPI {
 
         ExtentTest test = extent.createTest("Weather Report for: " + cityName);
         test.info(table);
+    }
+
+    @AfterTest
+    public void tearDownTest() {
+        if (extent != null) {
+            extent.flush();
+        }
+        System.out.println("WeatherAPI test completed.");
     }
 }

@@ -32,7 +32,7 @@ jobs:
 
       - name: Upload Test Report (Extent Report)
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: ExtentReport
           path: test-output/WeatherReport.html
